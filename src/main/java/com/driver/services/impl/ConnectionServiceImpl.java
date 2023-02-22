@@ -89,7 +89,11 @@ public class ConnectionServiceImpl implements ConnectionService {
        User sender = userRepository2.findById(senderId).get();
        User receiver = userRepository2.findById(receiverId).get();
 
-       if(receiver.getConnected()==true){
+        if(receiver.getConnected() == true) {
+            throw new Exception("Cannot establish communication");
+        }
+
+       if(receiver.getMaskedIp()!=null){
            String IP = receiver.getMaskedIp();
 
            String code1 = IP.substring(0,3);
@@ -112,12 +116,13 @@ public class ConnectionServiceImpl implements ConnectionService {
                if(code1.equals(CountryName.AUS.toCode()))
                    countryName = CountryName.AUS.toString();
 
-               User updateSender = connect(senderId,countryName);
+//               User updateSender = connect(senderId,countryName);
 
-               if(updateSender.getConnected()==false)
-                   throw new Exception("Cannot establish communication");
-               else
-                   return updateSender;
+//               if(updateSender.getConnected()==false)
+//                   throw new Exception("Cannot establish communication");
+//               else
+
+               return connect(senderId,countryName);
            }
         }else {
            if(receiver.getOriginalCountry().equals(sender.getOriginalCountry())){
