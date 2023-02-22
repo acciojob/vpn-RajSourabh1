@@ -59,7 +59,7 @@ public class ConnectionServiceImpl implements ConnectionService {
                     String masked = countryCode + "." + providerId +"."+ userId;
 
                     user.setMaskedIp(masked);
-                    user.setConnected(true);
+//                    user.setConnected(true);
                     user.getConnectionList().add(connection);
 
                     serviceProvider1.getConnectionList().add(connection);
@@ -96,7 +96,9 @@ public class ConnectionServiceImpl implements ConnectionService {
 
            if(code1.equals(sender.getOriginalCountry().getCode())){
                sender.setConnected(true);
+               receiver.setConnected(true);
                userRepository2.save(sender);
+               userRepository2.save(receiver);      //now
                return sender;
            }else {
                String countryName = "";
@@ -112,17 +114,21 @@ public class ConnectionServiceImpl implements ConnectionService {
                if(code1.equals(CountryName.AUS.toCode()))
                    countryName = CountryName.AUS.toString();
 
-//               User updateSender = connect(senderId,countryName);
+               User updateSender = connect(senderId,countryName);
 
 //               if(updateSender.getConnected()==false)
 //                   throw new Exception("Cannot establish communication");
 //               else
-
-               return connect(senderId,countryName);
+               if(updateSender.getConnected()==true){
+                   receiver.setConnected(true);
+                   userRepository2.save(receiver);
+               }
+               return updateSender;
            }
         }else {
            if(receiver.getOriginalCountry().equals(sender.getOriginalCountry())){
                sender.setConnected(true);
+               receiver.setConnected(true);    //now
                userRepository2.save(sender);
                return sender;
            }else
