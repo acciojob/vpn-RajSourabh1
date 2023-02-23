@@ -123,7 +123,7 @@ public class ConnectionServiceImpl implements ConnectionService {
                 return updatedSender;
             }
         }else
-            throw new Exception("Cannot establish communication");
+            throw new Exception("Unable to connect");
     }
 }
 
