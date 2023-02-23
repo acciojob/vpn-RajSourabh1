@@ -112,9 +112,9 @@ public class ConnectionServiceImpl implements ConnectionService {
                     countryName = CountryName.AUS.toString();
 
                 User updatedSender = connect(senderId,countryName);
-//                if(!updatedSender.getConnected())
-//                    throw new Exception("Cannot establish communication");
-//                else
+                if(!updatedSender.getConnected())
+                    throw new Exception("Cannot establish communication");
+                else
                     return updatedSender;
             }
         }else{
@@ -123,9 +123,9 @@ public class ConnectionServiceImpl implements ConnectionService {
             }else{
                 String countryName = receiver.getOriginalCountry().getCountryName().toString();
                 User updatedSender = connect(senderId,countryName);
-//                if(!updatedSender.getConnected())
-//                    throw new Exception("Cannot establish communication");
-//                else
+                if(!updatedSender.getConnected())
+                    throw new Exception("Cannot establish communication");
+                else
                     return updatedSender;
             }
         }
