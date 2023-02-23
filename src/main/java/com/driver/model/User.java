@@ -67,7 +67,7 @@ public class User {
 
     public String getOriginalIp() {
         return originalIp;
-    }           //getOriginalIp()
+    }
 
     public void setOriginalIp(String originalIp) {
         this.originalIp = originalIp;
