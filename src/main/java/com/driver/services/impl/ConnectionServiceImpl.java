@@ -112,24 +112,23 @@ public class ConnectionServiceImpl implements ConnectionService {
                     countryName = CountryName.AUS.toString();
 
                 User updatedSender = connect(senderId,countryName);
-                if(!updatedSender.getConnected())
-                    throw new Exception("Cannot establish communication");
-                else
+//                if(!updatedSender.getConnected())
+//                    throw new Exception("Cannot establish communication");
+//                else
                     return updatedSender;
             }
-        }else if(receiver.getMaskedIp()==null){
+        }else{
             if(receiver.getOriginalCountry().equals(sender.getOriginalCountry())){
                 return sender;
             }else{
                 String countryName = receiver.getOriginalCountry().getCountryName().toString();
                 User updatedSender = connect(senderId,countryName);
-                if(!updatedSender.getConnected())
-                    throw new Exception("Cannot establish communication");
-                else
+//                if(!updatedSender.getConnected())
+//                    throw new Exception("Cannot establish communication");
+//                else
                     return updatedSender;
             }
-        }else
-            throw new Exception("Cannot establish communication");
+        }
     }
 }
 
