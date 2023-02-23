@@ -86,47 +86,97 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
     @Override
     public User communicate(int senderId, int receiverId) throws Exception {
-       User sender = userRepository2.findById(senderId).get();
-       User receiver = userRepository2.findById(receiverId).get();
 
-       if(receiver.getMaskedIp()!=null){
-           String IP = receiver.getMaskedIp();
+        User sender = userRepository2.findById(senderId).get();
+        User receiver = userRepository2.findById(receiverId).get();
 
-           String code1 = IP.substring(0,3);
+        if(receiver.getMaskedIp()!=null){
+            String Ip = receiver.getMaskedIp();
 
-           if(code1.equals(sender.getOriginalCountry().getCode())){
-               sender.setConnected(true);
-               userRepository2.save(sender);
-               return sender;
-           }else {
-               String countryName = "";
+            String code= Ip.substring(0,3);
 
-               if(code1.equals(CountryName.CHI.toCode()))
-                   countryName = CountryName.CHI.toString();
-               if(code1.equals(CountryName.JPN.toCode()))
-                   countryName = CountryName.JPN.toString();
-               if(code1.equals(CountryName.IND.toCode()))
-                   countryName = CountryName.IND.toString();
-               if(code1.equals(CountryName.USA.toCode()))
-                   countryName = CountryName.USA.toString();
-               if(code1.equals(CountryName.AUS.toCode()))
-                   countryName = CountryName.AUS.toString();
+            if(code.equals(sender.getOriginalCountry().getCode()))
+                return sender;
+            else {
+                String countryName = "";
 
-               User updateSender = connect(senderId,countryName);
+                if (code.equals(CountryName.CHI.toCode()))
+                    countryName = CountryName.CHI.toString();
+                if (code.equals(CountryName.JPN.toCode()))
+                    countryName = CountryName.JPN.toString();
+                if (code.equals(CountryName.IND.toCode()))
+                    countryName = CountryName.IND.toString();
+                if (code.equals(CountryName.USA.toCode()))
+                    countryName = CountryName.USA.toString();
+                if (code.equals(CountryName.AUS.toCode()))
+                    countryName = CountryName.AUS.toString();
 
-//               if(updateSender.getConnected()==false)
-//                   throw new Exception("Cannot establish communication");
-//               else
-               return updateSender;
-           }
-        }else {
-           if(receiver.getOriginalCountry().equals(sender.getOriginalCountry())){
-               sender.setConnected(true);
-               userRepository2.save(sender);
-               return sender;
-           }else
-               throw new Exception("Cannot establish communication");
-       }
+                User updatedSender = connect(senderId,countryName);
+                return updatedSender;
+            }
+        }else if(receiver.getMaskedIp()==null){
+            if(receiver.getOriginalCountry().equals(sender.getOriginalCountry())){
+                return sender;
+            }else{
+                String countryName = receiver.getOriginalCountry().getCountryName().toString();
+                User updatedSender = connect(senderId,countryName);
+                return updatedSender;
+            }
+        }else
+            throw new Exception("Cannot establish communication");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+//    User sender = userRepository2.findById(senderId).get();
+//    User receiver = userRepository2.findById(receiverId).get();
+//
+//       if(receiver.getMaskedIp()!=null){
+//               String IP = receiver.getMaskedIp();
+//
+//               String code1 = IP.substring(0,3);
+//
+//               if(code1.equals(sender.getOriginalCountry().getCode())){
+////               sender.setConnected(false);
+////               userRepository2.save(sender);
+//               return sender;
+//               }else {
+//               String countryName = "";
+//
+//               if(code1.equals(CountryName.CHI.toCode()))
+//               countryName = CountryName.CHI.toString();
+//               if(code1.equals(CountryName.JPN.toCode()))
+//               countryName = CountryName.JPN.toString();
+//               if(code1.equals(CountryName.IND.toCode()))
+//               countryName = CountryName.IND.toString();
+//               if(code1.equals(CountryName.USA.toCode()))
+//               countryName = CountryName.USA.toString();
+//               if(code1.equals(CountryName.AUS.toCode()))
+//               countryName = CountryName.AUS.toString();
+//
+//               User updateSender = connect(senderId,countryName);
+//
+////               if(updateSender.getConnected()==false)
+////                   throw new Exception("Cannot establish communication");
+////               else
+//               return updateSender;
+//               }
+//               }else {
+//               if(receiver.getOriginalCountry().equals(sender.getOriginalCountry())){
+////               sender.setConnected(false);
+////               userRepository2.save(sender);
+//               return sender;
+//
+//               }else
+//               throw new Exception("Cannot establish communication");
+//               }
 
